@@ -17,8 +17,8 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $starting_date = $this->faker->dateTimeInInterval('-25 days', '+50 days'); 
-        $daysDifference = ((int) Carbon::parse(Carbon::now())->diffInDays(Carbon::parse($starting_date))) + 1;
+        $starting_datetime = $this->faker->dateTimeInInterval('-25 days', '+50 days'); 
+        $daysDifference = ((int) Carbon::parse(Carbon::now())->diffInDays(Carbon::parse($starting_datetime))) + 1;
         $daysDifference = $daysDifference >= 0 ? "+" . $daysDifference . " days" : $daysDifference . " days";
         // dd([$daysDifference, $this->faker->dateTimeInInterval(($daysDifference), '+10 days')]);
         return [
@@ -28,7 +28,7 @@ class ProductFactory extends Factory
             'bid_step' => $this->faker->randomNumber(3),
             'location' => $this->faker->city(),
             'condition' => $this->faker->randomElement(['new', 'used']),
-            'starting_datetime' => $starting_date,
+            'starting_datetime' => $starting_datetime,
             'ending_datetime' => $this->faker->dateTimeInInterval(($daysDifference), '+12 days'),
         ];
     }

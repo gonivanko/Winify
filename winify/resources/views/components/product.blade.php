@@ -26,7 +26,7 @@
             
                 @elseif ($mytime > $product->ending_datetime)
                     @if ($product->current_bid)
-                    <x-tag variant="red" weight="font-semibold">Closing bid: $</x-tag>
+                    <x-tag variant="red" weight="font-semibold">Closing bid: ${{$product->current_bid}}</x-tag>
                     @else
                     <x-tag variant="red" weight="font-semibold">Not sold</x-tag>
                     @endif

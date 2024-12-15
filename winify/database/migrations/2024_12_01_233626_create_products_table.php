@@ -14,7 +14,9 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('seller_id')->constrained()->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('bidder_id')->constrained('users')->onDelete('cascade');
+
             $table->string('title');
             $table->longText('description');
 
@@ -22,7 +24,7 @@ return new class extends Migration
             $table->integer('bid_step');
 
             $table->integer('current_bid')->nullable();
-            // $table->foreignId('bidder_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('bidder_id')->constrained('users');
             
             $table->string('location');
             $table->enum('condition', ['new', 'used']);
@@ -32,7 +34,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement('UPDATE products SET current_bid = min_bid');
+        // DB::statement('UPDATE products SET current_bid = min_bid');
     }
 
     /**
@@ -40,6 +42,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints(); // Disable foreign key checks
         Schema::dropIfExists('products');
+        Schema::dropIfExists('users');
+        Schema::enableForeignKeyConstraints();  // Re-enable foreign key checks
     }
+
 };

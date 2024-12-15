@@ -16,16 +16,28 @@ class DatabaseSeeder extends Seeder
     {
         
 
-        User::factory()->create([
+        $gonivanko = User::factory()->create([
             'name' => 'gonivanko',
             'email' => 'gonivanko@gmail.com',
             'password' => 'gonivanko',
             'is_admin' => '1'
         ]);
 
+        $admin = User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'password' => 'admin',
+            'is_admin' => '1'
+        ]);
+
         // User::factory(10)->create();
 
-        Product::factory(100)->create();
+        Product::factory(100)->create([
+            'seller_id' => $gonivanko->id,
+            'bidder_id' => $admin->id,
+            'min_bid' => 100,
+            'current_bid' => 250
+        ]);
 
         // Product::create([
         //     'title' => 'Vintage Coca-Cola soda machine',

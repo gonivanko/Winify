@@ -11,6 +11,8 @@ class Product extends Model
 
     protected $fillable = [
         'title',
+        'seller_id',
+        'bidder_id',
         'description',
         'min_bid',
         'bid_step',
@@ -48,17 +50,22 @@ class Product extends Model
             
             switch ($filters['auction_status']) {
                 case 'on_auction':
-                    $query->where('starting_date', '<=', now())->where('ending_date', '>', now());
+                    $query->where('starting_datetime', '<=', now())->where('ending_date', '>', now());
                     break;
                 case 'sold':
                     $query->where('ending_date', '<=', now());
                     break;
                 case 'future_auction':
-                    $query->where('starting_date', '>=', now());
+                    $query->where('starting_datetime', '>=', now());
                     break;
             }
             
         }
         
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id');
     }
 }
