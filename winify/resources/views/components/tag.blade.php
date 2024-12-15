@@ -15,10 +15,12 @@
                 break;
         }
     }
+    $font_weight = "";
+    if ($attributes->has('weight')) {$font_weight = $weight;}
 @endphp
 
 <div 
-    class="flex items-center self-start p-2 rounded-lg {{$colorStyle}}"
+    class="flex items-center self-start p-2 rounded-lg {{$colorStyle}} {{$font_weight}}"
 >
     {{$slot}}
 </div>

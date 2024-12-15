@@ -17,7 +17,6 @@ class ProductController extends Controller
             request([
                 'current_min_bid', 'current_max_bid', 'auction_status', 'condition', 'search'
             ]))
-
             ->paginate(6);
 
         return view('products.index', [

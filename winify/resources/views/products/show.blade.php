@@ -10,19 +10,19 @@
 
             @php $mytime = Carbon\Carbon::now(); @endphp
 
-            @if ($product->ending_date > $product->starting_date)
+            @if ($product->ending_datetime > $product->starting_datetime)
 
-                @if (($mytime > $product->starting_date) && ($mytime < $product->ending_date))
+                @if (($mytime > $product->starting_datetime) && ($mytime < $product->ending_datetime))
 
-                    <x-tag variant="green">On auction till {{$product->ending_date}}</x-tag>
+                    <x-tag variant="green">On auction till {{$product->ending_datetime}}</x-tag>
 
-                @elseif ($mytime < $product->starting_date)
+                @elseif ($mytime < $product->starting_datetime)
 
-                    <x-tag variant="yellow">Auction starts on {{$product->starting_date}}</x-tag>
+                    <x-tag variant="yellow">Auction starts on {{$product->starting_datetime}}</x-tag>
 
-                @elseif ($mytime > $product->ending_date)
+                @elseif ($mytime > $product->ending_datetime)
 
-                    <x-tag variant="red">Auction ended on {{$product->ending_date}}</x-tag>
+                    <x-tag variant="red">Auction ended on {{$product->ending_datetime}}</x-tag>
 
                 @endif
 
@@ -31,7 +31,7 @@
             <div class="flex justify-between items-center">
                 <div class="flex flex-row items-start">
                     <div class="text-2xl font-bold">$</div>
-                    <div class="text-5xl font-bold">{{$product->min_bid}}</div>
+                    <div class="text-5xl font-bold">{{$product->current_bid ? $product->current_bid : $product->min_bid}}</div>
                 </div>
                 <div class="flex items-center gap-1"><x-svg-icon type="location"></x-svg-icon><div>{{$product->location}}</div></div>
             </div>

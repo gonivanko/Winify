@@ -20,8 +20,19 @@
             <x-button href="{{url('/')}}">Buy</x-button>
             <x-button href="{{url('/products/create')}}">Sell</x-button>
             <x-button href="{{url('/about')}}">About</x-button>
-            <x-button href="{{url('/login')}}">Log In</x-button>
-            <x-button href="{{url('/register')}}" variant="primary">Sign Up</x-button>
+
+            @auth
+                <x-button href="{{url('/products/manage')}}">Manage products</x-button>
+                <x-button href="{{url('/users/profile')}}">Profile</x-button> 
+                <form action="{{url('/logout')}}" method="POST">
+                    @csrf
+                    <x-button type="submit">Log Out</x-button>
+                </form>
+            @else
+                <x-button href="{{url('/login')}}">Log In</x-button>
+                <x-button href="{{url('/register')}}" variant="primary">Sign Up</x-button>
+            @endauth
+            
         </nav>
         
         <x-button type="button" onclick="handleMenuClick()" class="md:hidden"><img src="{{asset('icons/menu.svg')}}" class="text-base w-6 h-6"></x-button>
