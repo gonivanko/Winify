@@ -14,15 +14,15 @@
 
                 @if (($mytime > $product->starting_datetime) && ($mytime < $product->ending_datetime))
 
-                    <x-tag variant="green">On auction till {{$product->ending_datetime}}</x-tag>
+                    <x-tag variant="green"><x-svg-icon type="time"/> On auction till {{$product->ending_datetime}}</x-tag>
 
                 @elseif ($mytime < $product->starting_datetime)
 
-                    <x-tag variant="yellow">Auction starts on {{$product->starting_datetime}}</x-tag>
+                    <x-tag variant="yellow"><x-svg-icon type="time"/>Auction starts on {{$product->starting_datetime}}</x-tag>
 
                 @elseif ($mytime > $product->ending_datetime)
 
-                    <x-tag variant="red">Auction ended on {{$product->ending_datetime}}</x-tag>
+                    <x-tag variant="red"><x-svg-icon type="time"/>Auction ended on {{$product->ending_datetime}}</x-tag>
 
                 @endif
 
@@ -37,14 +37,15 @@
             </div>
             <p>{{$product->description}}</p>
             <x-tag weight="font-semibold">{{$product->condition}}</x-tag>
-            <form method="POST" action="{{url('/products')}}" class="flex flex-col gap-6">
+            <form method="POST" action="{{url('/products/' . $product->id . '/bid')}}" class="flex flex-col gap-6">
+                @csrf
                 <x-input 
                     type="number" 
                     name="bid" 
                     id="bid" 
-                    min="{{$product->min_bid}}" 
-                    step="{{$product->bid_step}}" 
-                    value="{{$product->min_bid}}"
+                    min="{{$product->current_bid ? $product->current_bid + $product->bid_step : $product->min_bid}}" 
+                    {{-- step="{{$product->bid_step}}"  --}}
+                    value="{{$product->current_bid ? $product->current_bid + $product->bid_step : $product->min_bid}}"
                 >Bid</x-input>
                 <x-button type="submit" variant="primary">Place Bid</x-button>
             </form>

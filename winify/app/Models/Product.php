@@ -16,6 +16,7 @@ class Product extends Model
         'description',
         'min_bid',
         'bid_step',
+        'current_bid',
         'location',
         'condition',
         'starting_datetime',
@@ -50,10 +51,10 @@ class Product extends Model
             
             switch ($filters['auction_status']) {
                 case 'on_auction':
-                    $query->where('starting_datetime', '<=', now())->where('ending_date', '>', now());
+                    $query->where('starting_datetime', '<=', now())->where('ending_datetime', '>', now());
                     break;
                 case 'sold':
-                    $query->where('ending_date', '<=', now());
+                    $query->where('ending_datetime', '<=', now());
                     break;
                 case 'future_auction':
                     $query->where('starting_datetime', '>=', now());

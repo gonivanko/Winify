@@ -20,7 +20,7 @@
 @endphp
 
 <div 
-    class="flex items-center self-start p-2 rounded-lg {{$colorStyle}} {{$font_weight}}"
+    class="flex items-center self-start p-2 rounded-lg gap-1 {{$colorStyle}} {{$font_weight}}"
 >
     {{$slot}}
 </div>

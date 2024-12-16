@@ -54,7 +54,7 @@
         }
 
     </script>
-    <x-flash-message></x-flash-message>
+    <x-flash-message/>
     <!-- <footer>Made by @gonivanko in 2024</footer> -->
 </body>
 </html>

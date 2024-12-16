@@ -36,6 +36,8 @@
             name="{{$name}}" 
             id="{{$id}}"
             @if (isset($value)) value="{{$value}}" @endif
+            @if (isset($min) && $type === "number") min="{{$min}}" @endif
+            {{-- @if (isset($step) && $type === "number") step="{{$step}}" @endif --}}
             class="flex items-center py-3 pr-3 pl-4 gap-2 border rounded-lg isolate">
         @error($name)
                 <p class="text-red-500 text-xs">{{$message}}</p>

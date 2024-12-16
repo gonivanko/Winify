@@ -18,6 +18,9 @@ Route::get('/products/create', [ProductController::class, 'create'])->middleware
 // Store Product Data
 Route::post('/products', [ProductController::class, 'store'])->middleware('auth_user');
 
+// Place a Bid on a Product
+Route::post('/products/{product}/bid', [ProductController::class, 'placeBid'])->middleware('auth_user')->name('products.bid');
+
 // Manage Products
 Route::get('/products/manage', [ProductController::class, 'manage'])->middleware('auth_user');
 

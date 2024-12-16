@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Condition;
+use Carbon\Carbon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -125,5 +126,42 @@ class ProductController extends Controller
             ]);
         }
         
+    }
+
+    public function placeBid(Request $request, Product $product) {
+
+        if ($product->seller_id == Auth::id()) {
+            return back()->with("message", "Sorry, you can't place bids on your products");
+        }
+
+        $current_datetime = Carbon::now();
+
+        if ($current_datetime < $product->starting_datetime) {
+
+            return back()->with('message', [
+                "text" => "Sorry, the auction hasn't started",
+                "color" => "yellow"
+            ]);
+        }
+
+        if ($current_datetime > $product->ending_datetime) {
+            return back()->with('message', [
+                'text' => 'Sorry, the auction has ended',
+                'color' => 'red'
+            ]);
+        }
+
+        $min_possible_bid = $product->current_bid ? ($product->current_bid + $product->bid_step) : $product->min_bid;
+
+        $request->validate([
+            'bid' => ['required', 'integer', 'min:' . $min_possible_bid]
+        ]);
+
+        $product->update([
+            'current_bid' => $request->bid,
+            'bidder_id' => Auth::id()
+        ]);
+
+        return back()->with('message', 'Your bid has been placed successfully!');
     }
 }
