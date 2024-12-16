@@ -10,7 +10,6 @@
     >
     <div class="flex-1 flex flex-col justify-between text-left gap-2 w-full">
         <h3 class="text-base">{{$product->title}}</h3>
-        <p class="font-semibold">
             @if ($product->ending_datetime > $product->starting_datetime)
 
                 @if (($mytime > $product->starting_datetime) && ($mytime < $product->ending_datetime))
@@ -35,9 +34,8 @@
                 
             @endif
             
-        </p>
         <div class="flex items-center gap-1">
-            <x-svg-icon type="location"></x-svg-icon><div>{{$product->location}}</div>
+            <x-svg-icon type="location"/><div>{{$product->location}}</div>
         </div>
     </div>
 </a>

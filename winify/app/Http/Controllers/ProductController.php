@@ -6,6 +6,7 @@ use App\Condition;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -51,10 +52,11 @@ class ProductController extends Controller
             'ending_datetime' => ['required', 'date', 'after:starting_datetime'],
         ]);
 
-
         if ($request->hasFile('photo')) {
             $formFields['photo'] = $request->file('photo')->store('product-photos', 'public');
         }
+
+        $formFields['seller_id'] = Auth::id();
 
         Product::create($formFields);
 
@@ -63,11 +65,21 @@ class ProductController extends Controller
 
     // Show edit form
     public function edit(Product $product) {
+
+        if ($product->seller_id != Auth::id() && !Auth::user()->is_admin) {
+            abort(403, 'Unathorized Action');
+        }
+
         return view('products.edit', ['product' => $product]);
     }
 
     // Update product
     public function update(Request $request, Product $product) {
+
+        if ($product->seller_id != Auth::id() && !Auth::user()->is_admin) {
+            abort(403, 'Unathorized Action');
+        }
+
         $formFields = $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -91,7 +103,27 @@ class ProductController extends Controller
 
     // Delete product
     public function delete(Product $product) {
+
+        if ($product->seller_id != Auth::id() && !Auth::user()->is_admin) {
+            abort(403, 'Unathorized Action');
+        }
+
         $product->delete();
-        return redirect('/')->with('message', 'Product deleted successfully');
+        return back()->with('message', 'Product deleted successfully');
+    }
+
+    public function manage() {
+
+        if (Auth::user()->is_admin) {
+            return view('products.manage', [
+                'products' => Product::latest()->get()
+            ]);
+        }
+        else {
+            return view('products.manage', [
+                'products' => Auth::user()->products()->get()
+            ]);
+        }
+        
     }
 }

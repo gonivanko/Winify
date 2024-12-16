@@ -18,6 +18,9 @@ Route::get('/products/create', [ProductController::class, 'create'])->middleware
 // Store Product Data
 Route::post('/products', [ProductController::class, 'store'])->middleware('auth_user');
 
+// Manage Products
+Route::get('/products/manage', [ProductController::class, 'manage'])->middleware('auth_user');
+
 // Edit Single Product
 Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->middleware('auth_user');
 
@@ -29,6 +32,8 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->middlew
 
 // Delete Single Product
 Route::delete('/products/{product}', [ProductController::class, 'delete'])->middleware('auth_user');
+
+
 
 // Show Register Form
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
@@ -44,6 +49,8 @@ Route::get('/login', [UserController::class, 'login'])->middleware('guest')->nam
 
 // Log User In
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+
+
 
 Route::get('/about', function () {
     return view('about');
