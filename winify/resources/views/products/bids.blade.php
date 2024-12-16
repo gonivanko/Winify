@@ -18,7 +18,7 @@
                     <h2 class="font-semibold text-2xl">{{$product->title}}</h2>
                     <h1 class="font-semibold text-3xl">${{$product->current_bid}}</h1>                    
                 </a>
-                <div class="flex items-center justify-center sm:justify-start gap-4">
+                <div class="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
 
                     @switch($product->getStatus())
                         @case('on_auction')
