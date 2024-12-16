@@ -23,7 +23,7 @@
 
             @auth
                 <x-button href="{{url('/products/manage')}}">Manage products</x-button>
-                <x-button href="{{url('/users/profile')}}">Profile</x-button> 
+                <x-button href="{{url('/products/bids')}}">My bids</x-button> 
                 <form action="{{url('/logout')}}" method="POST" class="flex justify-center">
                     @csrf
                     <x-button type="submit">Log Out</x-button>

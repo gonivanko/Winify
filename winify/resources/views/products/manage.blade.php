@@ -45,6 +45,13 @@
 
         @endforeach
 
+        @else
+        <div class="flex justify-center items-center">
+            <h2 class="font-semibold text-2xl">You don't have products yet</h2>
+        </div>
+            
+
+
         @endunless
     </div>
 </x-layout>

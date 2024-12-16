@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'seller_id' => $gonivanko->id,
             'bidder_id' => $admin->id,
             'min_bid' => 100,
-            'current_bid' => 250
+            'current_bid' => 100
         ]);
 
         // Product::create([

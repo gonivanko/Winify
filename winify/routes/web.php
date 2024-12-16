@@ -21,8 +21,17 @@ Route::post('/products', [ProductController::class, 'store'])->middleware('auth_
 // Place a Bid on a Product
 Route::post('/products/{product}/bid', [ProductController::class, 'placeBid'])->middleware('auth_user')->name('products.bid');
 
+// Place a Bid on a Product
+Route::post('/products/{product}/pay', [ProductController::class, 'pay'])->middleware('auth_user');
+
+// Place a Bid on a Product
+Route::post('/products/{product}/received', [ProductController::class, 'received'])->middleware('auth_user');
+
 // Manage Products
 Route::get('/products/manage', [ProductController::class, 'manage'])->middleware('auth_user');
+
+// Manage Products
+Route::get('/products/bids', [ProductController::class, 'bids'])->middleware('auth_user');
 
 // Edit Single Product
 Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->middleware('auth_user');

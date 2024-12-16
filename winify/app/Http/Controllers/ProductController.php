@@ -128,10 +128,28 @@ class ProductController extends Controller
         
     }
 
+    public function bids() {
+
+        if (Auth::user()->is_admin) {
+            return view('products.bids', [
+                'products' => Product::latest()->get()
+            ]);
+        }
+        else {
+            return view('products.bids', [
+                'products' => Auth::user()->bids()->get()
+            ]);
+        }
+        
+    }
+
     public function placeBid(Request $request, Product $product) {
 
         if ($product->seller_id == Auth::id()) {
-            return back()->with("message", "Sorry, you can't place bids on your products");
+            return back()->with("message", [
+                "text" => "Sorry, you can't place bids on your products",
+                "color" => "yellow"
+            ]);
         }
 
         $current_datetime = Carbon::now();
@@ -147,7 +165,7 @@ class ProductController extends Controller
         if ($current_datetime > $product->ending_datetime) {
             return back()->with('message', [
                 'text' => 'Sorry, the auction has ended',
-                'color' => 'red'
+                'color' => 'yellow'
             ]);
         }
 
@@ -163,5 +181,84 @@ class ProductController extends Controller
         ]);
 
         return back()->with('message', 'Your bid has been placed successfully!');
+    }
+
+    public function pay(Request $request, Product $product) {
+
+        // dd($product->bidder_id);
+
+        if ($product->is_paid) {
+            return back()->with("message", [
+                "text" => "You have already paid for this product",
+                "color" => "yellow"
+            ]);
+        }
+
+
+        if ($product->bidder_id !== Auth::id()) {
+            return back()->with("message", [
+                "text" => "Sorry, it wasn't your bid",
+                "color" => "yellow"
+            ]);
+        }
+
+        $current_datetime = Carbon::now();
+
+        if ($current_datetime < $product->ending_datetime) {
+
+            return back()->with('message', [
+                "text" => "Sorry, the auction hasn't finished yet",
+                "color" => "yellow"
+            ]);
+        }
+
+        $product->update([
+            'is_paid' => 1
+        ]);
+
+        return back()->with('message', 'You have successfully paid for the product!');
+    }
+
+    public function received(Request $request, Product $product) {
+
+        // dd($product->bidder_id);
+
+        if (!$product->is_paid) {
+            return back()->with("message", [
+                "text" => "Error. You haven't paid for this product",
+                "color" => "red"
+            ]);
+        }
+
+        if (!$product->is_sent) {
+            return back()->with("message", [
+                "text" => "Error. Product hasn't been sent yet",
+                "color" => "red"
+            ]);
+        }
+
+
+        if ($product->bidder_id !== Auth::id()) {
+            return back()->with("message", [
+                "text" => "Sorry, it wasn't your bid",
+                "color" => "yellow"
+            ]);
+        }
+
+        $current_datetime = Carbon::now();
+
+        if ($current_datetime < $product->ending_datetime) {
+
+            return back()->with('message', [
+                "text" => "Sorry, the auction hasn't finished yet",
+                "color" => "yellow"
+            ]);
+        }
+
+        $product->update([
+            'is_received' => 1
+        ]);
+
+        return back()->with('message', 'You have successfully marked the product as received!');
     }
 }

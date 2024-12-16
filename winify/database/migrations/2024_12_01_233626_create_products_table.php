@@ -27,13 +27,19 @@ return new class extends Migration
             $table->integer('bid_step');
 
             $table->integer('current_bid')->nullable();
-            // $table->foreignId('bidder_id')->constrained('users');
+
+            $table->boolean('is_paid')->default(0);
+            $table->boolean('is_sent')->default(0);
+            $table->boolean('is_received')->default(0);
             
             $table->string('location');
             $table->enum('condition', ['new', 'used']);
+
             $table->dateTime('starting_datetime');
             $table->dateTime('ending_datetime');
+
             $table->string('photo')->nullable();
+
             $table->timestamps();
         });
 

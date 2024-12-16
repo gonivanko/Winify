@@ -8,25 +8,21 @@
         <div class="flex-1 flex flex-col text-start gap-4">
             <h2 class="text-2xl font-semibold">{{$product->title}}</h2>
 
-            @php $mytime = Carbon\Carbon::now(); @endphp
-
-            @if ($product->ending_datetime > $product->starting_datetime)
-
-                @if (($mytime > $product->starting_datetime) && ($mytime < $product->ending_datetime))
-
+            @switch($product->getStatus())
+                @case('on_auction')
                     <x-tag variant="green"><x-svg-icon type="time"/> On auction till {{$product->ending_datetime}}</x-tag>
-
-                @elseif ($mytime < $product->starting_datetime)
-
+                    @break
+                @case('future_auction')
                     <x-tag variant="yellow"><x-svg-icon type="time"/>Auction starts on {{$product->starting_datetime}}</x-tag>
-
-                @elseif ($mytime > $product->ending_datetime)
-
-                    <x-tag variant="red"><x-svg-icon type="time"/>Auction ended on {{$product->ending_datetime}}</x-tag>
-
-                @endif
-
-            @endif
+                    @break
+                @case('auction_ended')
+                    @if ($product->bidder_id === Auth::id())
+                        <x-tag variant="green"><x-svg-icon type="check"/>Auction won {{$product->ending_datetime}}</x-tag>
+                    @else
+                        <x-tag variant="red"><x-svg-icon type="time"/>Auction ended on {{$product->ending_datetime}}</x-tag>
+                    @endif
+                    @break                    
+            @endswitch
             
             <div class="flex justify-between items-center">
                 <div class="flex flex-row items-start">
@@ -37,31 +33,36 @@
             </div>
             <p>{{$product->description}}</p>
             <x-tag weight="font-semibold">{{$product->condition}}</x-tag>
-            <form method="POST" action="{{url('/products/' . $product->id . '/bid')}}" class="flex flex-col gap-6">
-                @csrf
-                <x-input 
-                    type="number" 
-                    name="bid" 
-                    id="bid" 
-                    min="{{$product->current_bid ? $product->current_bid + $product->bid_step : $product->min_bid}}" 
-                    {{-- step="{{$product->bid_step}}"  --}}
-                    value="{{$product->current_bid ? $product->current_bid + $product->bid_step : $product->min_bid}}"
-                >Bid</x-input>
-                <x-button type="submit" variant="primary">Place Bid</x-button>
-            </form>
 
-            <x-button href="{{url('products/' . $product->id . '/edit')}}" class="gap-1">
-                <x-svg-icon type="edit"/>
-                Edit
-            </x-button>
-            <form method="POST" action="{{url('/products' . '/' . $product->id)}}" class="flex">
-                @csrf
-                @method('DELETE')
-                <x-button type="submit" class="flex-1 gap-1 text-textRed">
-                    <x-svg-icon type="delete"/>
-                    Delete
+            @if ($product->getStatus() === "on_auction")            
+                <form method="POST" action="{{url('/products/' . $product->id . '/bid')}}" class="flex flex-col gap-6">
+                    @csrf
+                    <x-input 
+                        type="number" 
+                        name="bid" 
+                        id="bid" 
+                        min="{{$product->current_bid ? $product->current_bid + $product->bid_step : $product->min_bid}}" 
+                        value="{{$product->current_bid ? $product->current_bid + $product->bid_step : $product->min_bid}}"
+                    >Bid</x-input>
+                    <x-button type="submit" variant="primary">Place Bid</x-button>
+                </form>
+            @endif
+            
+            @if ($product->seller_id == Auth::id() && $product->getStatus() !== "auction_ended")
+                <x-button href="{{url('products/' . $product->id . '/edit')}}" class="gap-1">
+                    <x-svg-icon type="edit"/>
+                    Edit
                 </x-button>
-            </form>
+                <form method="POST" action="{{url('/products' . '/' . $product->id)}}" class="flex">
+                    @csrf
+                    @method('DELETE')
+                    <x-button type="submit" class="flex-1 gap-1 text-textRed">
+                        <x-svg-icon type="delete"/>
+                        Delete
+                    </x-button>
+                </form> 
+            @endif
+            
 
         </div>
     </div>
