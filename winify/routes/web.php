@@ -5,12 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 
-Route::get('/welcome', function () {
-    return view('welcome');
-})->middleware('guest');
+// Route::get('/welcome', function () {
+//     return view('welcome');
+// })->middleware('guest');
+
 
 // All Products
 Route::get('/', [ProductController::class, 'index']);
+
 
 // Show Create Form
 Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth_user');
@@ -18,20 +20,24 @@ Route::get('/products/create', [ProductController::class, 'create'])->middleware
 // Store Product Data
 Route::post('/products', [ProductController::class, 'store'])->middleware('auth_user');
 
+
 // Place a Bid on a Product
 Route::post('/products/{product}/bid', [ProductController::class, 'placeBid'])->middleware('auth_user')->name('products.bid');
 
-// Place a Bid on a Product
+// Pay for a Product
 Route::post('/products/{product}/pay', [ProductController::class, 'pay'])->middleware('auth_user');
 
-// Place a Bid on a Product
+// Mark a Product as Received
 Route::post('/products/{product}/received', [ProductController::class, 'received'])->middleware('auth_user');
+
 
 // Manage Products
 Route::get('/products/manage', [ProductController::class, 'manage'])->middleware('auth_user');
 
-// Manage Products
+// Manage Bids
 Route::get('/products/bids', [ProductController::class, 'bids'])->middleware('auth_user');
+
+
 
 // Edit Single Product
 Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->middleware('auth_user');
@@ -63,6 +69,23 @@ Route::get('/login', [UserController::class, 'login'])->middleware('guest')->nam
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 
+// Edit Single Product
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth_user');
+
+// // Edit Single Product
+// Route::get('/users/{user}/products', [UserController::class, 'products'])->middleware('auth_user');
+
+// Show Profile Page
+Route::get('/users/{user}', [UserController::class, 'show'])->middleware('auth_user');
+
+// Update Single Product
+Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth_user');
+
+// Store New User Data
+Route::get('/users', [UserController::class, 'index'])->middleware('auth_admin');
+
+// Delete Single Product
+Route::delete('/users/{user}', [UserController::class, 'delete'])->middleware('auth_user');
 
 Route::get('/about', function () {
     return view('about');

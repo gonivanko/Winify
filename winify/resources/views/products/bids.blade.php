@@ -25,11 +25,13 @@
                             <x-tag variant="green"><x-svg-icon type="time"/> On auction till {{$product->ending_datetime}}</x-tag>
                             @break
                         @case('future_auction')
-                            <x-tag variant="yellow"><x-svg-icon type="time"/>Auction starts on {{$product->starting_datetime}}</x-tag>
+                            <x-tag variant="purple"><x-svg-icon type="time"/>Auction starts on {{$product->starting_datetime}}</x-tag>
                             @break
                         @case('auction_ended')
                             @if ($product->bidder_id === Auth::id())
                                 <x-tag variant="green"><x-svg-icon type="check"/>Auction won {{$product->ending_datetime}}</x-tag>
+                            @elseif ($product->current_bid && Auth::user()->is_admin)
+                                <x-tag variant="green"><x-svg-icon type="time"/>Auction ended on {{$product->ending_datetime}}</x-tag>
                             @else
                                 <x-tag variant="red"><x-svg-icon type="time"/>Auction ended on {{$product->ending_datetime}}</x-tag>
                             @endif
@@ -49,7 +51,7 @@
                     @endif
                 </div>
                 <div class="flex items-center justify-center sm:justify-start gap-4">
-                    @if ($mytime > $product->ending_datetime && !$product->is_paid)
+                    @if ($mytime > $product->ending_datetime && $product->current_bid && !$product->is_paid)
                     
                         <form 
                             method="POST" 
@@ -86,7 +88,7 @@
         @else
 
         <div class="flex justify-center items-center">
-            <h2 class="font-semibold text-2xl">You don't have products yet</h2>
+            <h2 class="font-semibold text-2xl">You don't have bids yet</h2>
         </div>
 
         @endunless

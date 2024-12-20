@@ -1,29 +1,23 @@
 @php
-    $colorStyle = "border";
-    if ($attributes->has('variant')) {
-        switch ($attributes->get('variant')) {
-            case 'red':
-                $colorStyle = "bg-backgroundRed text-textRed";
-                break;
-            case 'yellow':
-                $colorStyle = "bg-backgroundYellow text-textYellow";
-                break;
-            case 'green':
-                $colorStyle = "bg-backgroundGreen text-textGreen";
-                break;
-            default:
-                break;
-        }
-    }
-    $font_weight = "";
-    if ($attributes->has('weight')) {$font_weight = $weight;}
+    $variantStyles = [
+        'purple' => 'bg-backgroundPurple text-textPurple',
+        'red' => 'bg-backgroundRed text-textRed',
+        'green' => 'bg-backgroundGreen text-textGreen',
+    ];
+
+    $colorStyle = $attributes->has('variant') 
+        ? $variantStyles[$attributes->get('variant')] ?? 'border' 
+        : 'border';
+
+    $font_weight = $attributes->has('weight') ? $weight : '';
 @endphp
 
 <div 
-    class="flex items-center self-stretch p-2 rounded-lg gap-2 text-start {{$colorStyle}} {{$font_weight}}"
+    class="flex items-center self-start p-2 rounded-lg gap-2 text-start {{$colorStyle}} {{$font_weight}}"
 >
     {{$slot}}
 </div>
+
 
 
 

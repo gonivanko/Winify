@@ -30,13 +30,27 @@ class DatabaseSeeder extends Seeder
             'is_admin' => '1'
         ]);
 
-        // User::factory(10)->create();
+        $ivan = User::factory()->create([
+            'name' => 'Ivan',
+            'email' => 'ivan@gmail.com',
+            'password' => 'ivan',
+            'is_admin' => '0'
+        ]);
 
-        Product::factory(100)->create([
-            'seller_id' => $gonivanko->id,
-            'bidder_id' => $admin->id,
-            'min_bid' => 100,
-            'current_bid' => 100
+        $yehor = User::factory()->create([
+            'name' => 'Yehor',
+            'email' => 'yehor@gmail.com',
+            'password' => 'yehor',
+            'is_admin' => '0'
+        ]);
+
+
+        Product::factory(20)->create([
+            'seller_id' => $ivan->id
+        ]);
+
+        Product::factory(20)->create([
+            'seller_id' => $yehor->id
         ]);
 
         // Product::create([

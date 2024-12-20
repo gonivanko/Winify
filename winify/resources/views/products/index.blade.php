@@ -25,8 +25,8 @@
             <x-select type="select" id="auction_status" name="auction_status" label="Status" value="{{old('condition')}}">
                 <option value="">All</option>
                 <option value="on_auction" {{getSelected($filters, 'auction_status', 'on_auction')}}>On auction</option>
-                <option value="sold" {{getSelected($filters, 'auction_status', 'sold')}}>Sold</option>
                 <option value="future_auction" {{getSelected($filters, 'auction_status', 'future_auction')}}>Future auction</option>
+                <option value="auction_ended" {{getSelected($filters, 'auction_status', 'auction_ended')}}>Auction ended</option>
             </x-select>
             
             <x-select type="select" id="condition" name="condition" label="Condition" value="{{old('condition')}}">

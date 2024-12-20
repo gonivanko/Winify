@@ -24,8 +24,8 @@ class ProductFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(3),
-            'min_bid' => $this->faker->randomNumber(5),
-            'bid_step' => $this->faker->randomNumber(3),
+            'min_bid' => $this->faker->randomNumber(2) * 100,
+            'bid_step' => $this->faker->randomNumber(1) * 10,
             'location' => $this->faker->city(),
             'condition' => $this->faker->randomElement(['new', 'used']),
             'starting_datetime' => $starting_datetime,

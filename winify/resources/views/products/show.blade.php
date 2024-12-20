@@ -7,13 +7,23 @@
         </div>
         <div class="flex-1 flex flex-col text-start gap-4">
             <h2 class="text-2xl font-semibold">{{$product->title}}</h2>
-
-            @switch($product->getStatus())
+            <div class="flex gap-4">
+                @switch($product->condition)
+                    @case('new')
+                        <x-tag variant="green">New</x-tag>
+                        @break
+                    @case('used')
+                        <x-tag variant="yellow">Used</x-tag>
+                        @break
+                    @default
+                        
+                @endswitch
+                @switch($product->getStatus())
                 @case('on_auction')
                     <x-tag variant="green"><x-svg-icon type="time"/> On auction till {{$product->ending_datetime}}</x-tag>
                     @break
                 @case('future_auction')
-                    <x-tag variant="yellow"><x-svg-icon type="time"/>Auction starts on {{$product->starting_datetime}}</x-tag>
+                    <x-tag variant="purple"><x-svg-icon type="time"/>Auction starts on {{$product->starting_datetime}}</x-tag>
                     @break
                 @case('auction_ended')
                     @if ($product->bidder_id === Auth::id())
@@ -24,6 +34,8 @@
                     @break                    
             @endswitch
             
+            </div>
+            
             <div class="flex justify-between items-center">
                 <div class="flex flex-row items-start">
                     <div class="text-2xl font-bold">$</div>
@@ -31,8 +43,10 @@
                 </div>
                 <div class="flex items-center gap-1"><x-svg-icon type="location"/><div>{{$product->location}}</div></div>
             </div>
+            
+            
             <p>{{$product->description}}</p>
-            <x-tag weight="font-semibold">{{$product->condition}}</x-tag>
+            
 
             @if ($product->getStatus() === "on_auction")            
                 <form method="POST" action="{{url('/products/' . $product->id . '/bid')}}" class="flex flex-col gap-6">
@@ -47,21 +61,23 @@
                     <x-button type="submit" variant="primary">Place Bid</x-button>
                 </form>
             @endif
-            
-            @if ($product->seller_id == Auth::id() && $product->getStatus() !== "auction_ended")
-                <x-button href="{{url('products/' . $product->id . '/edit')}}" class="gap-1">
-                    <x-svg-icon type="edit"/>
-                    Edit
-                </x-button>
-                <form method="POST" action="{{url('/products' . '/' . $product->id)}}" class="flex">
-                    @csrf
-                    @method('DELETE')
-                    <x-button type="submit" class="flex-1 gap-1 text-textRed">
-                        <x-svg-icon type="delete"/>
-                        Delete
+            @auth
+                @if (($product->seller_id === Auth::id() || Auth::user()->is_admin) && ($product->getStatus() !== "auction_ended" || !$product->current_bid))
+                    <x-button href="{{url('products/' . $product->id . '/edit')}}" class="gap-1">
+                        <x-svg-icon type="edit"/>
+                        Edit
                     </x-button>
-                </form> 
-            @endif
+                    <form method="POST" action="{{url('/products' . '/' . $product->id)}}" class="flex">
+                        @csrf
+                        @method('DELETE')
+                        <x-button type="submit" class="flex-1 gap-1 text-textRed">
+                            <x-svg-icon type="delete"/>
+                            Delete
+                        </x-button>
+                    </form> 
+                @endif
+            @endauth
+            
             
 
         </div>

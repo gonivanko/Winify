@@ -1,7 +1,8 @@
 @php
-    $style = "flex items-center justify-center p-3 text-slate-800";
+    $padding = $attributes->has('padding') ? $padding : "p-3";
+    $style = "flex items-center justify-center $padding text-slate-800";
     if ($attributes->has('variant') && $variant === "primary") {
-        $style = "flex items-center justify-center p-3 bg-neutral-800 text-zinc-100 rounded-lg";
+        $style = "flex items-center justify-center $padding bg-neutral-800 text-zinc-100 rounded-lg";
     }
 @endphp
 

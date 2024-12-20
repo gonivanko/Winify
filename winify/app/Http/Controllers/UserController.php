@@ -60,4 +60,64 @@ class UserController extends Controller
         Auth::login($user);
         
     }
+
+    public function show(User $user) {
+        return view('users.profile', [
+            'user' => $user
+        ]);
+    }
+
+    public function edit(User $user) {
+
+        if ($user->id != Auth::id() && !Auth::user()->is_admin) {
+            abort(403, 'Unathorized Action');
+        }
+
+        return view('users.edit', ['user' => $user]);
+    }
+
+    public function update(Request $request, User $user) {
+
+        if ($user->id != Auth::id() && !Auth::user()->is_admin) {
+            abort(403, 'Unathorized Action');
+        }
+
+        $formFields = $request->validate([
+            'name' => 'required',
+            'password' => ['required', 'min:6']
+        ]);
+
+        $formFields['password'] = bcrypt($formFields['password']);
+
+        $user->update($formFields);
+
+        return back()->with('message', 'User updated successfully');
+    }
+
+    public function index() {
+        $users = User::latest()->paginate(3);
+        return view('users.index', ['users' => $users]);
+    }
+
+    public function delete(User $user) {
+
+        if ($user->id != Auth::id() && !Auth::user()->is_admin) {
+            abort(403, 'Unathorized Action');
+        }
+
+        if ($user->is_admin) {
+            abort(403, "Admins can't be deleted");
+        }
+
+
+        $user->delete();
+        return back()->with('message', 'User deleted successfully');
+    }
+
+    // public function products(User $user) {
+    //     return view('products.manage', [
+    //         'products' => $user->products()->get()
+    //     ]);
+    // }
 }
+

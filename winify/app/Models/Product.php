@@ -19,7 +19,7 @@ class Product extends Model
         'bid_step',
         'current_bid',
         'is_paid',
-        'is_sent',
+        // 'is_sent',
         'is_received',
         'location',
         'condition',
@@ -62,7 +62,7 @@ class Product extends Model
                 case 'on_auction':
                     $query->where('starting_datetime', '<=', now())->where('ending_datetime', '>', now());
                     break;
-                case 'sold':
+                case 'auction_ended':
                     $query->where('ending_datetime', '<=', now());
                     break;
                 case 'future_auction':

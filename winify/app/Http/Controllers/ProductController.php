@@ -71,6 +71,12 @@ class ProductController extends Controller
             abort(403, 'Unathorized Action');
         }
 
+        $current_datetime = Carbon::now();
+
+        if ($current_datetime > $product->ending_datetime && $product->current_bid) {
+            abort(403, 'Auction finished');
+        }
+
         return view('products.edit', ['product' => $product]);
     }
 
@@ -89,7 +95,7 @@ class ProductController extends Controller
             'location' => 'required',
             'condition' => ['required', Rule::enum(Condition::class)],
             'starting_datetime' => ['required', 'date'],
-            'ending_datetime' => ['required', 'date', 'after:starting_datetime'],
+            'ending_datetime' => ['required', 'date', 'after:starting_datetime', 'after_or_equal:now'],
         ]);
 
 
@@ -107,6 +113,12 @@ class ProductController extends Controller
 
         if ($product->seller_id != Auth::id() && !Auth::user()->is_admin) {
             abort(403, 'Unathorized Action');
+        }
+
+        $current_datetime = Carbon::now();
+
+        if ($current_datetime > $product->ending_datetime && $product->current_bid) {
+            abort(403, 'Auction finished');
         }
 
         $product->delete();
@@ -132,7 +144,9 @@ class ProductController extends Controller
 
         if (Auth::user()->is_admin) {
             return view('products.bids', [
-                'products' => Product::latest()->get()
+                'products' => Product::latest()
+                    ->whereNotNull('current_bid')
+                    ->get()
             ]);
         }
         else {
@@ -230,15 +244,15 @@ class ProductController extends Controller
             ]);
         }
 
-        if (!$product->is_sent) {
-            return back()->with("message", [
-                "text" => "Error. Product hasn't been sent yet",
-                "color" => "red"
-            ]);
-        }
+        // if (!$product->is_sent) {
+        //     return back()->with("message", [
+        //         "text" => "Error. Product hasn't been sent yet",
+        //         "color" => "red"
+        //     ]);
+        // }
 
 
-        if ($product->bidder_id !== Auth::id()) {
+        if ($product->bidder_id !== Auth::id() && !Auth::user()->is_admin) {
             return back()->with("message", [
                 "text" => "Sorry, it wasn't your bid",
                 "color" => "yellow"
@@ -258,6 +272,8 @@ class ProductController extends Controller
         $product->update([
             'is_received' => 1
         ]);
+
+        // Return payment to the seller
 
         return back()->with('message', 'You have successfully marked the product as received!');
     }

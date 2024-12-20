@@ -19,16 +19,23 @@
         <nav class="header-nav flex flex-col md:flex-row text-center gap-2 md:gap-4" id="header-nav">
             <x-button href="{{url('/')}}">Buy</x-button>
             <x-button href="{{url('/products/create')}}">Sell</x-button>
-            <x-button href="{{url('/about')}}">About</x-button>
-
+            
             @auth
-                <x-button href="{{url('/products/manage')}}">Manage products</x-button>
-                <x-button href="{{url('/products/bids')}}">My bids</x-button> 
+                @if (Auth::user()->is_admin)
+                    <x-button href="{{url('/products/manage')}}">Manage products</x-button>
+                    <x-button href="{{url('/products/bids')}}">Bids</x-button> 
+                    <x-button href="{{url('/users')}}">Users</x-button> 
+                @else
+                    <x-button href="{{url('/products/manage')}}">My products</x-button>
+                    <x-button href="{{url('/products/bids')}}">My bids</x-button> 
+                    <x-button href="{{url('/users/' . Auth::id())}}">Profile</x-button> 
+                @endif
                 <form action="{{url('/logout')}}" method="POST" class="flex justify-center">
                     @csrf
                     <x-button type="submit">Log Out</x-button>
                 </form>
             @else
+                <x-button href="{{url('/about')}}">About</x-button>
                 <x-button href="{{url('/login')}}">Log In</x-button>
                 <x-button href="{{url('/register')}}" variant="primary">Sign Up</x-button>
             @endauth
@@ -42,7 +49,9 @@
             flex-1 flex flex-col 
             @if ($attributes->has('items')) {{$items}} @else items-stretch @endif 
             @if ($attributes->has('justify')) {{$justify}} @else justify-start @endif 
-            text-center gap-12 px-12 py-6">
+            @if ($attributes->has('text')) {{$text}} @else text-center @endif 
+            @if ($attributes->has('gap')) {{$gap}} @else gap-12 @endif 
+            px-12 py-6">
         {{$slot}}
     </main>
     
