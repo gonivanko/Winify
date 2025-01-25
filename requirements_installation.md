@@ -17,7 +17,7 @@ To run the project locally you should have such software installed:
 | Node          | 20          |
 | npm           | 10          |
 
-## Check if installed
+## Check versions
 
 To check if you have the required software to run the app, you can run such commands:
 
@@ -54,6 +54,6 @@ To install git, you can simply go to the official website <https://git-scm.com/>
 
 ## After installation
 
-After installing the software, you can check the versions and compare them with the required ones
+After installing the software, you can [check the versions](requirements_installation.md#check-versions) and compare them with the [required ones](requirements_installation.md#project-requirements)
 
 [Back to the main documentation](README.md)
