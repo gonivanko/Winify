@@ -21,7 +21,7 @@
 | Node          | 20          |
 | npm           | 10          |
 
-[Як встановити ці програми](requirements_installation.md)
+[Як встановити ці програми](requirements_installation_ukr.md)
 
 ### Клонування з Github
 

@@ -1,5 +1,9 @@
 # Requirements installation guide
 
+[Guide in Ukrainian](requirements_installation_ukr.md)
+
+[Back to the main documentation](README.md)
+
 ## Project Requirements
 
 To run the project locally you should have such software installed:
@@ -47,3 +51,9 @@ To install Node and npm, you can simply go to their offical website <https://nod
 ### Git
 
 To install git, you can simply go to the official website <https://git-scm.com/> and install it
+
+## After installation
+
+After installing the software, you can check the versions and compare them with the required ones
+
+[Back to the main documentation](README.md)
