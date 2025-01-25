@@ -2,6 +2,8 @@
 > Online auction web app project written in **PHP Laravel** and **Tailwind CSS**  
 by **@gonivanko**
 
+[Readme in Ukrainian](README_UKR.md)
+
 ## Code structure
 All of the code is stored in *winify* [folder](/winify)
 
@@ -9,9 +11,9 @@ All of the code is stored in *winify* [folder](/winify)
 
 ### Project requirements
 
-To run the project locally you should have such tools installed:
+To run the project locally you should have such software installed:
 
-| Tool          | Min version |
+| Software      | Min version |
 | ---           | ---         |
 | PHP           | 8.2         |
 | Composer      | 2           |
