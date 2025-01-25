@@ -22,6 +22,8 @@ To run the project locally you should have such software installed:
 | Node          | 20          |
 | npm           | 10          |
 
+[Requirements installation guide](requirements_installation.md)
+
 ### Clone from Github
 
 Copy this repo
