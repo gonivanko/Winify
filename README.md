@@ -57,7 +57,7 @@ create .env file
     ```
 
 and edit the .env file
-``` console
+```
 DB_CONNECTION=mariadb
 DB_HOST=your_database_host [localhost]
 DB_PORT=your_database_port [3306]
