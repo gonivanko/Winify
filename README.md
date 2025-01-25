@@ -43,9 +43,14 @@ composer install
 ### ENV file
 
 create .env file
-```
-cp .env.example .env
-```
+1. Linux
+    ```
+    cp .env.example .env
+    ```
+2. Windows
+    ```
+    copy .env.example .env
+    ```
 
 and edit the .env file
 ```
@@ -69,6 +74,12 @@ run database migrations
 php artisan migrate
 ```
 
+[Optional] You can also generate basic users and random products
+
+```
+php artisan migrate:refresh --seed
+```
+
 ### Install and build npm dependencies
 ```
 npm install 
@@ -84,4 +95,4 @@ php artisan serve
 ```
 
 and go to the  
-http://localhost:8000/
+http://127.0.0.1:8000/
