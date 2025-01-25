@@ -28,19 +28,19 @@ To run the project locally you should have such software installed:
 
 Copy this repo
 
-```
+``` console
 git clone https://github.com/gonivanko/Winify.git
 ```
 
 go to the working directory:
 
-```
+``` console
 cd Winify/winify
 ```
 
 ### Install PHP dependencies
 
-```
+``` console
 composer install
 ```
 
@@ -48,16 +48,16 @@ composer install
 
 create .env file
 1. Linux
-    ```
+    ``` console
     cp .env.example .env
     ```
 2. Windows
-    ```
+    ``` console
     copy .env.example .env
     ```
 
 and edit the .env file
-```
+``` console
 DB_CONNECTION=mariadb
 DB_HOST=your_database_host [localhost]
 DB_PORT=your_database_port [3306]
@@ -69,23 +69,23 @@ DB_PASSWORD=your_database_password [winify123]
 ### Secret key and database migrations
 
 generate app's secret key:
-```
+``` console
 php artisan key:generate
 ```
 
 run database migrations
-```
+``` console
 php artisan migrate
 ```
 
 [Optional] You can also generate basic users and random products
 
-```
+``` console
 php artisan migrate:refresh --seed
 ```
 
 ### Install and build npm dependencies
-```
+``` console
 npm install 
 npm run build
 ```
@@ -94,7 +94,7 @@ npm run build
 
 Now you can start the project
 
-```
+``` console
 php artisan serve
 ```
 

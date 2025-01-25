@@ -27,19 +27,19 @@
 
 Скопіюйте цей репозиторій
 
-```
+``` console
 git clone https://github.com/gonivanko/Winify.git
 ```
 
 та перейдіть у робочу папку:
 
-```
+``` console
 cd Winify/winify
 ```
 
 ### Встановіть PHP залежності
 
-```
+``` console
 composer install
 ```
 
@@ -47,11 +47,11 @@ composer install
 
 Створіть файл .env
 1. Linux
-    ```
+    ``` console
     cp .env.example .env
     ```
 2. Windows
-    ```
+    ``` console
     copy .env.example .env
     ```
 
@@ -68,23 +68,23 @@ DB_PASSWORD=your_database_password [winify123]
 ### Секретний ключ і міграції бази даних
 
 Згенеруйте секретний ключ застосунку:
-```
+``` console
 php artisan key:generate
 ```
 
 запустіть міграцію бази даних
-```
+``` console
 php artisan migrate
 ```
 
 [Вибірково] Ви можете також створити базових користувачів та випадкові товари
 
-```
+``` console
 php artisan migrate:refresh --seed
 ```
 
 ### Встановіть та скомпілюйте npm залежності
-```
+``` console
 npm install 
 npm run build
 ```
@@ -93,7 +93,7 @@ npm run build
 
 Тепер ви можете запустити застосунок
 
-```
+``` console
 php artisan serve
 ```
 

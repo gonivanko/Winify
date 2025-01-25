@@ -21,7 +21,7 @@ To run the project locally you should have such software installed:
 
 To check if you have the required software to run the app, you can run such commands:
 
-```
+``` console
 php --version
 composer --version
 git --version
