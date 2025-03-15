@@ -84,6 +84,11 @@ php artisan migrate
 php artisan migrate:refresh --seed
 ```
 
+link storage
+``` console
+php artisan storage:link
+```
+
 ### Install and build npm dependencies
 ``` console
 npm install 
