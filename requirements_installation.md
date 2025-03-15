@@ -35,7 +35,7 @@ To check MariaDB version you can run such query in the database:
 SELECT VERSION();
 ```
 
-## Installation
+## Installation (GUI)
 ### PHP, MariaDB and Composer
 
 You can quickly install PHP and MariaDB by installing Xampp from their official website <https://www.apachefriends.org/index.html>
@@ -52,6 +52,34 @@ To install Node and npm, you can simply go to their offical website <https://nod
 
 To install git, you can simply go to the official website <https://git-scm.com/> and install it
 
+## Installation (Ubuntu cmd)
+
+Refresh your local package index first:
+
+```
+sudo apt update
+```
+
+### PHP and Composer
+
+To install PHP and Composer, you run:
+```
+sudo apt install composer
+```
+and you'll also need php-xml extension:
+```
+sudo apt install php-xml
+```
+
+### Node and npm
+
+To install Node and npm, you can simply run
+```
+sudo apt install nodejs
+```
+```
+sudo apt install npm
+```
 ## After installation
 
 After installing the software, you can [check the versions](requirements_installation.md#check-versions) and compare them with the [required ones](requirements_installation.md#project-requirements)
