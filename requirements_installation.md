@@ -59,10 +59,13 @@ Refresh your local package index first:
 ```
 sudo apt update
 ```
+You can watch this video by 
+Code with Nevyan for installation instructions:
+<https://www.youtube.com/watch?v=BVhdUIP0Xeg>
 
 ### PHP and Composer
 
-To install PHP and Composer, you run:
+To install PHP and Composer run:
 ```
 sudo apt install composer
 ```
@@ -80,6 +83,7 @@ sudo apt install nodejs
 ```
 sudo apt install npm
 ```
+
 ## After installation
 
 After installing the software, you can [check the versions](requirements_installation.md#check-versions) and compare them with the [required ones](requirements_installation.md#project-requirements)
